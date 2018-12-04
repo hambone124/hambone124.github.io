@@ -18,22 +18,28 @@
         var framerate60 = 1000/60;
         var framerate30 = 1000/30;
         var framerate15 = 1000/15;
+        var fpsCounter = 0;
         
+        function updateFpsDisplay (fps) {
+            textMax.content = fps + ' Hz (max on current display)';
+            fpsCounter = 0;
+        }
+
         var textMax = new PointText(new Point(20,30));
         textMax.fillColor = 'white';
         textMax.content = 'Max Hz';
+        
+        var text60 = new PointText(new Point(20,130));
+        text60.fillColor = 'white';
+        text60.content = '60 Hz';
 
-        var textMax = new PointText(new Point(20,130));
-        textMax.fillColor = 'white';
-        textMax.content = '60 Hz';
+        var text30 = new PointText(new Point(20,230));
+        text30.fillColor = 'white';
+        text30.content = '30 Hz';
 
-        var textMax = new PointText(new Point(20,230));
-        textMax.fillColor = 'white';
-        textMax.content = '30 Hz';
-
-        var textMax = new PointText(new Point(20,330));
-        textMax.fillColor = 'white';
-        textMax.content = '15 Hz';
+        var text15 = new PointText(new Point(20,330));
+        text15.fillColor = 'white';
+        text15.content = '15 Hz';
 
         var circleMax = new Path.Circle(0,70,15);
         circleMax.fillColor='white'
@@ -46,12 +52,16 @@
 
         var direction = 50;
         function onFrame(event){
-            console.log(circleMax.position.x);
+            fpsCounter++;
             circleMax.position.x += direction;
             if (circleMax.position.x < 0 || circleMax.position.x > view.size.width){
                 direction *= -1;
             }
         }
+
+        setInterval(function(){
+            updateFpsDisplay(fpsCounter);
+        }, 1000);
 
         setInterval(function(){
             circle60.position.x = circleMax.position.x
@@ -64,7 +74,6 @@
         setInterval(function(){
             circle15.position.x = circleMax.position.x
         }, framerate15);
-
     </script>
 </head>
 <body>
